@@ -358,6 +358,9 @@ namespace SparkleShare {
             else
                 html += "No revisions for <b>&ldquo;";
 
+            byte [] file_path_bytes = Encoding.Default.GetBytes (file_path);
+            file_path               = Encoding.UTF8.GetString (file_path_bytes);
+
             html += Path.GetFileName (file_path) + "&rdquo;</b>";
 			html += "</div><div class='table-wrapper'><table>";
 
