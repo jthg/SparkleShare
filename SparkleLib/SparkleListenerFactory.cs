@@ -40,7 +40,7 @@ namespace SparkleLib {
             // Please see the SparkleShare wiki if you wish to run
             // your own service instead
             if (string.IsNullOrEmpty (uri))
-                uri = "tcp://notifications.sparkleshare.org:443";
+                uri = "tcp://127.0.0.1:5555";
 
             Uri announce_uri = new Uri (uri);
 
@@ -57,7 +57,7 @@ namespace SparkleLib {
                 }
             }
 
-            listeners.Add (new SparkleListenerTcp (announce_uri, folder_identifier));
+            listeners.Add (new SparkleListenerNetMQ (announce_uri, folder_identifier));
             SparkleLogger.LogInfo ("ListenerFactory", "Issued new listener for " + announce_uri);
 
             return (SparkleListenerBase) listeners [listeners.Count - 1];

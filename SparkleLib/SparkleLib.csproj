@@ -30,6 +30,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="NetMQ">
+      <HintPath>..\SparkleShare\Mac\packages\NetMQ.3.3.0.11\lib\net40\NetMQ.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SparkleRepoBase.cs" />
@@ -37,7 +40,6 @@
     <Compile Include="SparkleWrappers.cs" />
     <Compile Include="SparkleListenerBase.cs" />
     <Compile Include="SparkleListenerFactory.cs" />
-    <Compile Include="SparkleListenerTcp.cs" />
     <Compile Include="SparkleBackend.cs" />
     <Compile Include="SparkleConfig.cs" />
     <Compile Include="SparkleWatcher.cs" />
@@ -46,6 +48,10 @@
     <Compile Include="SparkleLogger.cs" />
     <Compile Include="Defines.cs" />
     <Compile Include="SparkleFetcherSSH.cs" />
+    <Compile Include="SparkleListenerNetMQ.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

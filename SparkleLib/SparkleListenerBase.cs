@@ -40,7 +40,7 @@ namespace SparkleLib {
         public event AnnouncementReceivedEventHandler AnnouncementReceived = delegate { };
         public delegate void AnnouncementReceivedEventHandler (SparkleAnnouncement announcement);
 
-        public readonly Uri Server;
+        public Uri Server;
 
         public abstract void Connect ();
         public abstract bool IsConnected { get; }

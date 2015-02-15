@@ -41,7 +41,7 @@ namespace SparkleLib {
             byte [] bytes      = ASCIIEncoding.Default.GetBytes (s);
             byte [] sha1_bytes = sha1.ComputeHash (bytes);
 
-            return BitConverter.ToString (sha1_bytes).ToLower ().Replace ("-", "");
+            return BitConverter.ToStgring (sha1_bytes).ToLower ().Replace ("-", "");
         }
 
 
