@@ -62,6 +62,9 @@ namespace SparkleShare {
 
         public static void ImportPrivateKey (string key_file_path)
         {
+            if (SparkleLib.SparkleBackend.Platform == PlatformID.Win32NT)
+                return;
+
             // Use forward slashes when dealing with Windows domain accounts
             if (key_file_path.StartsWith ("\\\\"))
                 key_file_path = key_file_path.Replace ("\\", "/");
@@ -80,6 +83,9 @@ namespace SparkleShare {
 
         public static void ListPrivateKeys ()
         {
+            if (SparkleLib.SparkleBackend.Platform == PlatformID.Win32NT)
+                return;
+
             SparkleKeyProcess process = new SparkleKeyProcess ("ssh-add", "-l");
             process.Start ();
             string keys_in_use = process.StandardOutput.ReadToEnd ();

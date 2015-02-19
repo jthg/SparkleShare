@@ -105,6 +105,7 @@ namespace SparkleLib.Git {
         public static string ExecPath;
         public static string GitPath;
         public static string SSHPath;
+        publib static string PrivateKeyPath;
 
 
         public SparkleGit (string path, string args) : base (path, args)
@@ -129,11 +130,13 @@ namespace SparkleLib.Git {
             else
                 StartInfo.EnvironmentVariables.Add ("GIT_TERMINAL_PROMPT", "0");
 
-            if (!string.IsNullOrEmpty (SSHPath)) {
-                if (StartInfo.EnvironmentVariables.ContainsKey ("GIT_SSH"))
-                    StartInfo.EnvironmentVariables ["GIT_SSH"] = SSHPath;
-                else
-                    StartInfo.EnvironmentVariables.Add ("GIT_SSH", SSHPath);
+            if (SparkleLib.SparkleBackend.Platform == PlatformID.Win32NT) {
+              string command = SSH_PATH + " -i " + PrivateKeyPath;
+
+              if (StartInfo.EnvironmentVariables.ContainsKey ("GIT_SSH_COMMAND"))
+                  StartInfo.EnvironmentVariables ["GIT_SSH_COMMAND"] = command;
+              else
+                  StartInfo.EnvironmentVariables.Add ("GIT_SSH_COMMAND", command);
             }
 
             if (string.IsNullOrEmpty (ExecPath))

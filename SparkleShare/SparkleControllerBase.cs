@@ -239,7 +239,7 @@ namespace SparkleShare {
                             File.Move (key_file_path + ".pub", Path.Combine (keys_path, new_file_name + ".pub"));
                             key_file_path = Path.Combine (keys_path, new_file_name);
                         }
-                        
+
                         SparkleKeys.ImportPrivateKey (key_file_path);
                         keys_imported = true;
                         

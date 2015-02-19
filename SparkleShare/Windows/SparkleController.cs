@@ -35,9 +35,6 @@ namespace SparkleShare {
 
     public class SparkleController : SparkleControllerBase {
 
-        private int ssh_agent_pid;
-
-
         public SparkleController () : base ()
         {
         }
@@ -67,8 +64,9 @@ namespace SparkleShare {
             Environment.SetEnvironmentVariable ("PATH", new_PATH);
             Environment.SetEnvironmentVariable ("HOME", Environment.GetFolderPath (Environment.SpecialFolder.UserProfile));
 
-            StartSSH ();
-            SparkleLib.Git.SparkleGit.SSHPath = Path.Combine (msysgit_path, "bin", "ssh.exe");
+            SparkleLib.Git.SparkleGit.SSHPath        = Path.Combine (msysgit_path, "bin", "ssh.exe");
+			SparkleLib.Git.SparkleGit.PrivateKeyPath = Config.User.PrivateKeyFilePath;
+
 
             base.Initialize ();
         }
@@ -195,75 +193,6 @@ namespace SparkleShare {
             
             } catch (COMException e) {
                 SparkleLogger.LogInfo ("Controller", "Copy to clipboard failed", e);
-            }
-        }
-
-
-        public override void Quit ()
-        {
-            StopSSH ();
-            base.Quit ();
-        }
-
-
-        private void StartSSH ()
-        {
-            string auth_agent_pid = Environment.GetEnvironmentVariable ("SSH_AGENT_PID");
-
-            if (!string.IsNullOrEmpty (auth_agent_pid)) {
-                SparkleLogger.LogInfo ("Controller", "Trying to use existing ssh-agent with PID=" + auth_agent_pid + "...");
-                this.ssh_agent_pid = Convert.ToInt32 (auth_agent_pid);
-                
-                try {
-                    Process ssh_agent = Process.GetProcessById (this.ssh_agent_pid);
-                    SparkleLogger.LogInfo ("Controller", "Using existing ssh-agent with PID=" + this.ssh_agent_pid);
-
-                    return;
-
-                } catch (ArgumentException) {
-                    SparkleLogger.LogInfo ("Controller", "ssh-agent with PID=" + auth_agent_pid + " does not exist. Starting a new one...");
-                }
-            }
-
-            Process process                          = new Process ();
-            process.StartInfo.FileName               = "ssh-agent";
-            process.StartInfo.UseShellExecute        = false;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.CreateNoWindow         = true;
-
-            process.Start ();
-
-            string output = process.StandardOutput.ReadToEnd ();
-            process.WaitForExit ();
-
-            Match auth_sock_match = new Regex (@"SSH_AUTH_SOCK=([^;\n\r]*)").Match (output);
-            Match ssh_pid_match   = new Regex (@"SSH_AGENT_PID=([^;\n\r]*)").Match (output);
-
-            if (auth_sock_match.Success)
-                Environment.SetEnvironmentVariable ("SSH_AUTH_SOCK", auth_sock_match.Groups [1].Value);
-
-            if (ssh_pid_match.Success) {
-                Int32.TryParse (ssh_pid_match.Groups [1].Value, out this.ssh_agent_pid);
-                Environment.SetEnvironmentVariable ("SSH_AGENT_PID", "" + this.ssh_agent_pid);
-
-                SparkleLogger.LogInfo ("Controller", "ssh-agent started, PID=" + this.ssh_agent_pid);
-
-            } else {
-                SparkleLogger.LogInfo ("Controller", "Could not start ssh-agent:" + output);
-            }
-        }
-
-
-        private void StopSSH ()
-        {
-            if (this.ssh_agent_pid == 0)
-                return;
-
-            try {
-                Process.GetProcessById (this.ssh_agent_pid).Kill ();
-
-            } catch (ArgumentException e) {
-                SparkleLogger.LogInfo ("SSH", "Could not stop ssh-agent: " + e.Message);
             }
         }
     }
