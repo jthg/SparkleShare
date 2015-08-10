@@ -34,6 +34,9 @@ SHAMROCK_CHECK_MONO_GAC_ASSEMBLIES([
 ])]
 )
 
+dnl DBus Sharp libraries
+SPARKLESHARE_CHECK_DBUS_SHARP
+
 AC_ARG_ENABLE(debug,
 	AC_HELP_STRING([--enable-debug],
 		[Use 'DEBUG' Configuration [default=YES]]),

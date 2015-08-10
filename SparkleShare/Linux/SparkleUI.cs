@@ -19,6 +19,8 @@ using System;
 
 using GLib;
 using Gtk;
+using DBus;
+
 using SparkleLib;
 
 namespace SparkleShare {
@@ -46,6 +48,11 @@ namespace SparkleShare {
 
             this.application.Register (null);
             this.application.Activated += ApplicationActivatedDelegate;
+
+            Bus bus = Bus.Session;
+
+            ObjectPath myPath = new ObjectPath ("/org/sparkleshare/sparkleshare");
+            string myName = "org.sparkleshare.sparkleshare";
 
             Gdk.Color color = SparkleUIHelpers.RGBAToColor (new Label().StyleContext.GetColor (StateFlags.Insensitive));
             SecondaryTextColor = SparkleUIHelpers.ColorToHex (color);
