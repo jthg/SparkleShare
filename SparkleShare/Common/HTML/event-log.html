@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>SparkleShare Event Log</title>
+        <title>Recent Events</title>
         
         <script type="text/javascript"><!-- $jquery --></script>
         <script type="text/javascript">
@@ -15,7 +15,7 @@
                   event.preventDefault();
               });
 
-              // Update the Today and Yesterday labels after midnight
+              // Update the 'Today' and 'Yesterday' labels after midnight
               var midnight_interval = setInterval (function(){
                 var date = new Date();
 
@@ -216,9 +216,19 @@
                 width: 24px;
                 height: 24px;
             }
+
+            .avatar-dialog {
+                padding: 0 28px;
+                background-color: silver;
+            }
         </style>
     </head>
-    <body oncontextmenu="return false;">
+    <body oncontextmenu='return false;'>
+        <div class='avatar-dialog'>
+            <p>Would you like SparkleShare to display <strong>gravatar.com</strong> profile pictures?</p>
+            <button>Sure</button>
+            <button>No, thanks</button>
+        </div>
         <!-- $event-log-content -->
     </body>
 </html>
