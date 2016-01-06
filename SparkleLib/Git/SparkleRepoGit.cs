@@ -1072,21 +1072,6 @@ namespace SparkleLib.Git {
     
                     PrepareDirectories (child_path);
                 }
-    
-                if (Directory.GetFiles (path).Length == 0 &&
-                    Directory.GetDirectories (path).Length == 0 &&
-                    !path.Equals (LocalPath)) {
-
-                    if (!File.Exists (Path.Combine (path, ".empty"))) {
-                        try {
-                            File.WriteAllText (Path.Combine (path, ".empty"), "I'm a folder!");
-                            File.SetAttributes (Path.Combine (path, ".empty"), FileAttributes.Hidden);
-
-                        } catch {
-                            SparkleLogger.LogInfo ("Git", Name + " | Failed adding empty folder " + path);
-                        }
-                    }
-                }
 
             } catch (IOException e) {
                 SparkleLogger.LogInfo ("Git", "Failed preparing directory", e);
