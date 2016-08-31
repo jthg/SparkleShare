@@ -62,6 +62,7 @@ namespace SparkleShare {
             string new_PATH = msysgit_path + @"\bin" + ";" +
                 msysgit_path + @"\mingw\bin" + ";" +
                 msysgit_path + @"\cmd" + ";" +
+                msysgit_path + @"\usr\bin" + ";" +
                 Environment.ExpandEnvironmentVariables ("%PATH%");
 
             Environment.SetEnvironmentVariable ("PATH", new_PATH);
